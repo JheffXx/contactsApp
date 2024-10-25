@@ -2,8 +2,9 @@ package com.upn.contactsapp.activities;
 
 import android.os.Bundle;
 import android.provider.Contacts;
-import android.provider.ContactsContract;
+import android.provider.ContactsContract;import android.util.Log;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import com.upn.contactsapp.R;
 import com.upn.contactsapp.entities.Contact;
 
 import java.util.List;
+import java.util.UUID;
 
 public class FireBaseActivity extends AppCompatActivity {
 
@@ -22,22 +24,29 @@ public class FireBaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fire_base);
 
+        EditText setText = findViewById(R.id.editTextText);
         Button btnFirebase = findViewById(R.id.btnFirebase);
 
         btnFirebase.setOnClickListener(view -> {
-            // Obtener instancia de Firebase y escribir un mensaje en la base de datos
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference myRef = database.getReference("contacts");
+            DatabaseReference myRef = database.getReference("N00286557");
+            DatabaseReference table =  myRef.child("contacts");
 
-            Contact c1 = new Contact("Pollo" , "97973");
-            c1.id=1;
-            Contact c2 = new Contact("Jherson" , "718217");
-            c2.id=2;
-            //myRef.setValue(c);
+            // Contact c1 = new Contact("Luis", "12345");
+            // c1.id = 1;
+            // Contact c2 = new Contact("Luis", "12345");
+            // c2.id = 2;
 
-            myRef.child(String.valueOf(c1.id)).setValue(c1);
-            myRef.child(String.valueOf(c2.id)).setValue(c2);
+            // table.child(String.valueOf(c1.id)).setValue(c1);
+            // table.child(String.valueOf(c2.id)).setValue(c2);
+            String name = setText.getText().toString();
+
+            Contact c3 = new Contact(name, "123456");
+            c3.uuid = UUID.randomUUID().toString();
+            table.child(c3.uuid).setValue(c3);
 
         });
+
+
     }
 }
